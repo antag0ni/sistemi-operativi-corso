@@ -1,0 +1,60 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <sys/shm.h>
+
+#define SIZE 200
+
+typedef struct {
+  char str[SIZE];
+}shared_data;
+
+void string_reverse(char *str) {
+  int len = strlen(str);
+  for (int i = 0; i < len / 2; i++) {
+    char temp =  str[i];
+    str[i] = str[len - 1 - i];
+    str[len - 1 - i] = temp;
+  }
+}
+
+int main(int argc, char **argv) {
+  
+  if (argc != 2) {
+    printf("Parametri non validi!");
+    return EXIT_FAILURE;
+  }
+
+  pid_t pid;
+  //creo memoria condivisa
+  int segment_id = shmget(IPC_PRIVATE, sizeof(shared_data), 0666);
+  //controllo della shmget()
+  if (segment_id < 0) {
+    perror("Errore nella shmget()\n");
+    shmctl(segment_id, IPC_RMID, NULL);
+    return EXIT_FAILURE;
+  }
+  pid = fork();
+  if (pid < 0) {
+    perror("Errore nella fork\n");
+    return EXIT_FAILURE;
+  } else if(pid == 0) {
+      shared_data *p = (shared_data *)shmat(segment_id, NULL, 0);
+      strcpy(p->str, argv[1]);
+      //reverse
+      string_reverse(p->str);
+      shmdt(p);
+      exit(EXIT_SUCCESS);
+  } else {
+    wait(NULL);
+    shared_data *p = (shared_data *)shmat(segment_id, NULL, 0);
+    printf("%s", p->str);
+    shmdt(p);
+  }
+
+  shmctl(segment_id, IPC_RMID, NULL);
+
+  return EXIT_SUCCESS;
+}
