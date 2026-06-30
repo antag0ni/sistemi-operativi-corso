@@ -1,0 +1,6 @@
+file1.txt
+0 12
+input.dat
+0 12
+myfiles2
+Found 1 file inside ./myfiles/myfiles2
