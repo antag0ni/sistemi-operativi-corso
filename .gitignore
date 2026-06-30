@@ -42,4 +42,6 @@ Thumbs.db
 *.class
 
 # Simulation outputs
-**/output.txt
+#**/output.txt
+*.txt
+*.dat
