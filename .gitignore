@@ -1,0 +1,45 @@
+# Ignore build artifacts
+*.o
+*.a
+*.so
+*.lo
+*.obj
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Debug / core
+core
+*.core
+
+# Build directories
+build/
+bin/
+obj/
+dist/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+*~
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.code-workspace
+
+# Project-specific
+/.vs/
+*.class
+
+# Simulation outputs
+**/output.txt
