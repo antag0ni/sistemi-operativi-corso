@@ -10,3 +10,4 @@
 read -p "Inserire nome utente: " username
 n_login=$(who | grep -w "$username" | wc -l)
 echo "Numero di login effettuati dall'utente: $n_login"
+exit 0
