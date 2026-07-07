@@ -45,3 +45,5 @@ Thumbs.db
 #**/output.txt
 *.txt
 *.dat
+*.md
+*.csv
